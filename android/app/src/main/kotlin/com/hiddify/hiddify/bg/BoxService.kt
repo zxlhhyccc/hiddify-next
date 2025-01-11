@@ -48,6 +48,7 @@ class BoxService(
         private fun initialize() {
             if (initializeOnce) return
             val baseDir = Application.application.filesDir
+            
             baseDir.mkdirs()
             workingDir = Application.application.getExternalFilesDir(null) ?: return
             workingDir.mkdirs()
@@ -56,7 +57,8 @@ class BoxService(
             Log.d(TAG, "base dir: ${baseDir.path}")
             Log.d(TAG, "working dir: ${workingDir.path}")
             Log.d(TAG, "temp dir: ${tempDir.path}")
-            Libbox.setup(baseDir.path, workingDir.path, tempDir.path, false)
+            
+            Mobile.setup(baseDir.path, workingDir.path, tempDir.path, false)
             Libbox.redirectStderr(File(workingDir, "stderr.log").path)
             initializeOnce = true
             return
@@ -292,8 +294,8 @@ class BoxService(
             }
         }
     }
-    override fun postServiceClose(){
-        //TODO:
+    override fun postServiceClose() {
+        // Not used on Android
     }
 
     private suspend fun stopAndAlert(type: Alert, message: String? = null) {
